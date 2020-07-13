@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,500,700&display=swap');
+
+body, html {
+    font-family: 'Lato', sans-serif;
+    height: 100%;
+    margin: 0px;
+  }
+.contentArea{
+  height: calc(100vh - 65px);
+}
