@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Typography, Paper, makeStyles } from '@material-ui/core'
 import apiBase from '../api/apiBase';
+import { LoadingNotification } from './LoadingNotification';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -10,18 +11,6 @@ const useStyles = makeStyles((theme) => ({
     title: {
         color: "#f44336",
     },
-    '@keyframes blinker': {
-        from: {opacity: 1},
-        to: {opacity: 0}
-    },
-    loadingText: {
-        textAlign: "center",
-        color: "green",
-        display: "block",
-        animationName: '$blinker',
-        animationDuration: '1s',
-        animationTimingFunction: 'linear',
-        animationIterationCount:'infinite',    },
   }));
   
 export const ProductCard = ({uuid}) => {
@@ -29,6 +18,7 @@ export const ProductCard = ({uuid}) => {
     
     const [productData, setProductData] = useState();
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
 
     useEffect(()=>{
         const getData = async () => {
@@ -44,6 +34,7 @@ export const ProductCard = ({uuid}) => {
                         //result = res;
                         console.log("Error: ",res);
                         setLoading(false);
+                        setError(true);                       
                     });                               
             }
         };
@@ -53,9 +44,7 @@ export const ProductCard = ({uuid}) => {
 
     return (
         <div>
-            {loading && <div>
-                <Typography variant="h4" className={classes.loadingText}>Loading data...</Typography>
-            </div>}
+            <LoadingNotification loading={loading} error={error} />
             {!loading && productData && 
 
                 <Paper className={classes.root}>

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { productListAPI } from '../api/productListAPI';
-import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { Grid, makeStyles } from '@material-ui/core';
 import { ProductCard } from './ProductCard';
 import { Link } from 'react-router-dom';
+import { LoadingNotification } from './LoadingNotification';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -11,27 +12,6 @@ const useStyles = makeStyles((theme) => ({
     link: {
         textDecoration: "none",
     },
-    notificationArea: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    '@keyframes blinker': {
-        from: {opacity: 1},
-        to: {opacity: 0}
-    },
-    loadingText: {
-        textAlign: "center",
-        color: "green",
-        display: "block",
-        animationName: '$blinker',
-        animationDuration: '1s',
-        animationTimingFunction: 'linear',
-        animationIterationCount:'infinite',    },
-    errorText: {
-        color:"red",
-    },
-
   }));
 
 export const ProductList = () => {
@@ -64,12 +44,7 @@ export const ProductList = () => {
 
     return (
         <div className={classes.root}>
-            {loading && <div className={classes.notificationArea + ' contentArea'}>
-                <Typography variant="h4" className={classes.loadingText}>Loading data...</Typography>
-            </div>}
-            {error && <div className={classes.notificationArea + ' contentArea'}>
-                <Typography variant="h4" className={classes.errorText}>Error fetching data, please try again</Typography>
-            </div>}
+            <LoadingNotification loading={loading} error={error} />
             {!loading && products && 
                 <Grid container spacing={2}>
                     {products.map((item)=>(
